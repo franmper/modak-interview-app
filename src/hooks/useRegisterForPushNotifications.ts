@@ -2,7 +2,7 @@ import * as Device from "expo-device";
 import * as Notifications from "expo-notifications";
 import React from "react";
 
-// NOTE (Francisco Miguel Peralta 2025-07-11): This the bare minimum to register for push notifications.
+// NOTE (Francisco Miguel Peralta 2025-07-11): This the bare minimum for push notifications, it is using local notifications.
 // We can improve this using services like Firebase Cloud Messaging (FCM) or AWS Simple Notification Service (SNS).
 // We can also improve the error handling by using a custom error class and some kind of error boundary.
 

@@ -2,11 +2,11 @@ import { useNetInfo } from "@react-native-community/netinfo";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Stack } from "expo-router";
 import ErrorLayout from "@/src/components/ErrorLayout";
-import useRegisterForPushNotifications from "@/src/utils/registerForPushNotifications";
+import useListenForPushNotifications from "@/src/hooks/useListenForPushNotifications";
+import useRegisterForPushNotifications from "@/src/hooks/useRegisterForPushNotifications";
 
 export default function App() {
   const { isConnected } = useNetInfo();
-  useRegisterForPushNotifications();
 
   // NOTE (Francisco Miguel Peralta 2025-07-11): Using React Query to improve api calls performance,
   // error handling, and caching.
@@ -15,6 +15,9 @@ export default function App() {
   const queryClient = new QueryClient({
     defaultOptions: { queries: { retry: 2 } },
   });
+
+  useRegisterForPushNotifications();
+  useListenForPushNotifications();
 
   if (!isConnected) {
     return (
@@ -37,7 +40,6 @@ export default function App() {
         <Stack.Screen
           name="product/[productId]"
           options={{
-            // TODO (Francisco Miguel Peralta 2025-07-11): Make the title dynamic based on the product id
             title: "Product",
           }}
         />

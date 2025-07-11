@@ -1,12 +1,13 @@
-import { useQuery, useSuspenseQuery } from "@tanstack/react-query";
 import { Image } from "expo-image";
+import * as Linking from "expo-linking";
+import * as Notifications from "expo-notifications";
 import { useLocalSearchParams } from "expo-router";
 import { FlatList, ScrollView, StyleSheet, Text, TouchableOpacity } from "react-native";
+import { useQuery } from "@tanstack/react-query";
 import ErrorLayout from "@/src/components/ErrorLayout";
 import Loader from "@/src/components/Loader";
 import { queries } from "@/src/queries";
-import * as Notifications from "expo-notifications";
-import useRegisterForPushNotifications from "@/src/utils/registerForPushNotifications";
+import sendPushNotification from "@/src/utils/sendPushNotification";
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -38,26 +39,16 @@ export default function ProductDetailsScreen() {
     return <Loader />;
   }
 
+  // NOTE (Francisco Miguel Peralta 2025-07-11): The API send a not found message when the product is not found.
   const isProductNotFound = product?.message?.includes("not found");
   if (isError || isProductNotFound) {
     return <ErrorLayout error={error?.message || product?.message} />;
   }
 
-  async function sendPushNotification() {
-    console.log(product);
-    Notifications.scheduleNotificationAsync({
-      content: {
-        title: `You bought ${product?.title}`,
-        body: `You should also buy ${product?.relatedProduct?.title} for $${product?.relatedProduct?.price}`,
-      },
-      trigger: null,
-    });
-  }
-
   const handleBuyNow = () => {
     // NOTE (Francisco Miguel Peralta 2025-07-11): This is just for the sake of the example, but should
     // create a checkout flow, and then send a push notification to the user.
-    sendPushNotification();
+    sendPushNotification(product);
   };
 
   return (

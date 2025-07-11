@@ -2,7 +2,7 @@
 	"expo": {
 		"name": "modak-challenge-fran",
 		"slug": "modak-challenge-fran",
-		"scheme": "modak-challenge-fran",
+		"scheme": "modak-fran",
 		"version": "0.0.1",
 		"author": "Francisco Miguel Peralta",
 		"orientation": "portrait",
